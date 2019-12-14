@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,8 @@ public class List extends AppCompatActivity {
                 mDialogBuilder.setView(registerView);
 
                 final EditText nameText =  registerView.findViewById(R.id.et_add_ingredient);
-
+                ListView listView = findViewById(R.id.ingrList);
+                listView.setAdapter(adapter);
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
