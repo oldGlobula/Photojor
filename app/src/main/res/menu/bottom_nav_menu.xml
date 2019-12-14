@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/baseline_history_24"
+        android:title="@string/menu_history"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_take_photo"
+        android:enabled="true"
+        android:icon="@drawable/outline_photo_camera_24"
+        android:title="@string/menu_photo"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_recipes"
+        android:enabled="true"
+        android:icon="@drawable/baseline_fastfood_24"
+        android:title="@string/menu_recipes"
+        app:showAsAction="ifRoom" />
+</menu>
