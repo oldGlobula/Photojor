@@ -157,7 +157,7 @@ public class CameraActivity extends Activity {
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(
-                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        MediaType.parse("image/jpg"),
                         file
                 );
 
@@ -171,7 +171,7 @@ public class CameraActivity extends Activity {
             @Override
             public void onResponse(Call<ServIngrResponse> call,
                                    Response<ServIngrResponse> response) {
-                Log.v("Upload", "success");
+                Log.v("Upload", "success:"+response.body().getName() );
             }
 
             @Override
