@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.button:
-                        Intent intent = new Intent(MainActivity.this, List.class);
+                        Intent intent = new Intent(MainActivity.this, ListActivity.class);
                         startActivity(intent);
                     case R.id.capture_image:
                         takePicture();
