@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -20,6 +22,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -40,6 +43,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -52,6 +56,7 @@ import java.util.UUID;
 
 import com.example.photojor.Utils.ApiService;
 import com.example.photojor.Utils.Consts;
+import com.example.photojor.model.Ingredient;
 import com.example.photojor.model.ServIngrResponse;
 import com.google.gson.GsonBuilder;
 
@@ -94,6 +99,9 @@ public class CameraActivity extends Activity {
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
 
+    boolean isLocked;
+    ServIngrResponse servResp;
+
     CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(@NonNull CameraDevice camera) {
@@ -118,21 +126,13 @@ public class CameraActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
+        isLocked=false;
 
         textureView = findViewById(R.id.texture_view);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
 
-        Consts.retrofit = new Retrofit.Builder()
-                .baseUrl(Consts.baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Consts.service = Consts.retrofit.create(ApiService.class);
 
-        Consts.gsonBuilder = new GsonBuilder();
-        //Consts.gsonBuilder.registerTypeAdapter(SecretKey.class, new SecretKeyAdapter());
-        Consts.gson = Consts.gsonBuilder.create();
 
 
 
@@ -144,6 +144,8 @@ public class CameraActivity extends Activity {
                 switch (view.getId()) {
 
                     case R.id.capture_image:
+                        isLocked=true;
+                        btnCapture.setActivated(!isLocked);
                         takePicture();
                 }
             }
@@ -171,12 +173,18 @@ public class CameraActivity extends Activity {
             @Override
             public void onResponse(Call<ServIngrResponse> call,
                                    Response<ServIngrResponse> response) {
-                Log.v("Upload", "success:"+response.body().getName() );
+                Log.wtf("Upload", "success:"+response.body().getName() );
+                servResp=response.body();
+                new DownloadImageTask()
+                        .execute("https://s1.webspoon.ru/ingredients/97a66f43b68cd562737d5ff474736a3c_31575.jpg");
             }
 
             @Override
             public void onFailure(Call<ServIngrResponse> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
+                isLocked=false;
+                btnCapture.setActivated(!isLocked);
+                Toast.makeText(CameraActivity.this,"Не удалось соединиться с сервером",Toast.LENGTH_LONG);
             }
         });
     }
@@ -435,5 +443,27 @@ public class CameraActivity extends Activity {
 
     }
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+                Intent intent=new Intent(CameraActivity.this,ListActivity.class);
+                intent.putExtra("NewIng",Consts.gson.toJson(servResp));
+                intent.putExtra("image",Consts.gson.toJson(mIcon11));
+                Log.w("intent: ",intent.getStringExtra("image"));
+                startActivity(intent);
+
+            } catch (Exception e) {
+                Log.e("Ошибка передачи", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+
+    }
 
 }
