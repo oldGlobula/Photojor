@@ -12,5 +12,5 @@ public class Consts {
     public static Retrofit retrofit;
     public static ApiService service;
 
-    public static final String baseUrl="192.168...";
+    public static final String baseUrl="http://2.59.43.166";
 }

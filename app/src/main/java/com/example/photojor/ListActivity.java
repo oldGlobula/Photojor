@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class List<S> extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
     Context context = this;
     ArrayAdapter<String> adapter;
 
@@ -38,7 +38,7 @@ public class List<S> extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                LayoutInflater li=LayoutInflater.from(context);
+                /*LayoutInflater li=LayoutInflater.from(context);
                 View registerView = li.inflate(R.layout.add_ingredient, null);
 
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
@@ -68,8 +68,9 @@ public class List<S> extends AppCompatActivity {
                 AlertDialog alertDialog = mDialogBuilder.create();
 
                 //и отображаем его:
-                alertDialog.show();
-
+                alertDialog.show();*/
+                Intent intent=new Intent(ListActivity.this,CameraActivity.class);
+                startActivity(intent);
 
             }
         });
