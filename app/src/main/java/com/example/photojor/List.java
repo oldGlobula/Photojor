@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class List extends AppCompatActivity {
+public class List<S> extends AppCompatActivity {
     Context context = this;
     ArrayAdapter<String> adapter;
 
