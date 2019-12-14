@@ -9,6 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.photojor.Utils.ApiService;
+import com.example.photojor.Utils.Consts;
+import com.google.gson.GsonBuilder;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainAppActivity extends AppCompatActivity {
 
     HistoryFragment historyFragment;
@@ -21,6 +28,15 @@ public class MainAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
+        Consts.retrofit = new Retrofit.Builder()
+                .baseUrl(Consts.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Consts.service = Consts.retrofit.create(ApiService.class);
+
+        Consts.gsonBuilder = new GsonBuilder();
+        //Consts.gsonBuilder.registerTypeAdapter(SecretKey.class, new SecretKeyAdapter());
+        Consts.gson = Consts.gsonBuilder.create();
         historyFragment = new HistoryFragment();
         photoFragment = new PhotoFragment();
         recipeFragment = new RecipeFragment();
