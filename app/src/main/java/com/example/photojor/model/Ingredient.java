@@ -8,9 +8,11 @@ import java.net.URI;
 public class Ingredient {
     String name;
     Bitmap image;
-    public Ingredient(String name)
+    public Ingredient(String name,Bitmap im)
+
     {
         this.name=name;
+        image=im;
     }
     public String getName() {
         return name;

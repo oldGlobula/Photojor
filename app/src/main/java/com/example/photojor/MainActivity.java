@@ -62,6 +62,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Consts.retrofit = new Retrofit.Builder()
+                .baseUrl(Consts.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Consts.service = Consts.retrofit.create(ApiService.class);
+
+        Consts.gsonBuilder = new GsonBuilder();
+        //Consts.gsonBuilder.registerTypeAdapter(SecretKey.class, new SecretKeyAdapter());
+        Consts.gson = Consts.gsonBuilder.create();
         setContentView(R.layout.activity_main);
         Button toListActivity = findViewById(R.id.to_list_activity);
         View.OnClickListener listener = new View.OnClickListener() {
@@ -72,7 +81,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         };
-
+        toListActivity.setOnClickListener(listener);
     }
     @Override
     protected void onResume() {
