@@ -45,6 +45,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.UUID;
 
+import com.example.photojor.Utils.ApiService;
+import com.example.photojor.Utils.Consts;
+import com.google.gson.GsonBuilder;
+
+import javax.crypto.SecretKey;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends Activity {
 
     private Button btnCapture;
@@ -98,9 +107,21 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         textureView = findViewById(R.id.texture_view);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
+
+        Consts.retrofit = new Retrofit.Builder()
+                .baseUrl(Consts.baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Consts.service = Consts.retrofit.create(ApiService.class);
+
+        Consts.gsonBuilder = new GsonBuilder();
+        //Consts.gsonBuilder.registerTypeAdapter(SecretKey.class, new SecretKeyAdapter());
+        Consts.gson = Consts.gsonBuilder.create();
+
 
         Button button = findViewById(R.id.button);
         btnCapture = findViewById(R.id.capture_image);
@@ -118,7 +139,7 @@ public class MainActivity extends Activity {
             }
         };
 
-        button.setOnClickListener(listener);
+      
         btnCapture.setOnClickListener(listener);
     }
 
@@ -354,5 +375,6 @@ public class MainActivity extends Activity {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+
     }
 }
