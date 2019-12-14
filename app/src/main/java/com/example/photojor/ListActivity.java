@@ -44,7 +44,7 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                /*LayoutInflater li=LayoutInflater.from(context);
+                LayoutInflater li=LayoutInflater.from(context);
                 View registerView = li.inflate(R.layout.add_ingredient, null);
 
                 AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
@@ -75,10 +75,9 @@ public class ListActivity extends AppCompatActivity {
                 AlertDialog alertDialog = mDialogBuilder.create();
 
                 //и отображаем его:
-                alertDialog.show();*/
-                Intent intent=new Intent(ListActivity.this,CameraActivity.class);
-                startActivity(intent);
-
+                alertDialog.show();
+                //Intent intent=new Intent(ListActivity.this,CameraActivity.class);
+                //startActivity(intent);
             }
         });
     }

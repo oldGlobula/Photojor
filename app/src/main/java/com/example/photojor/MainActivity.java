@@ -63,8 +63,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent=new Intent(MainActivity.this,com.example.photojor.ListActivity.class);
-        startActivity(intent);
+        Button toListActivity = findViewById(R.id.to_list_activity);
+        View.OnClickListener listener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,com.example.photojor.ListActivity.class);
+                startActivity(intent);
+            }
+        };
 
     }
     @Override
