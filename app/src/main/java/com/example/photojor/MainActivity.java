@@ -17,8 +17,8 @@ public class MainActivity extends Activity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, List.class);
-                startActivity(i);
+                Intent intent = new Intent(MainActivity.this, List.class);
+                startActivity(intent);
             }
         };
         button.setOnClickListener(listener);
