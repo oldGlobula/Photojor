@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Photojor</string>
-
+    <string name="add_ingredient">Добавить ингридиент</string>
 </resources>
