@@ -6,34 +6,31 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.photojor.model.Ingredient;
+import com.example.photojor.model.Recipe;
 
 import java.util.List;
 
-public class IngAdapter extends ArrayAdapter<Ingredient> {
-
-    public IngAdapter(@NonNull Context context, List array) {
-        super(context, R.layout.ingredient_item,array);
+public class RecipeAdapter extends android.widget.ArrayAdapter<Recipe> {
+    public RecipeAdapter(@NonNull Context context, List list) {
+        super(context, R.layout.ingredient_item, list);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Ingredient ing=getItem(position);
+        Recipe recipe = getItem(position);
 
         if(convertView==null)
         {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.ingredient_item,null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.recipe_item,null);
         }
-        TextView nameIngr = convertView.findViewById(R.id.ingName);
-        nameIngr.setText(ing.getName());
+        TextView recipeName = convertView.findViewById(R.id.recipe_name);
 
-        ImageView imageIngr = convertView.findViewById(R.id.ingImage);
-        imageIngr.setImageBitmap(ing.getImage());
+        ImageView recipeImage = convertView.findViewById(R.id.recipe_image);
         return convertView;
     }
 }
