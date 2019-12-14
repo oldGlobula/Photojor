@@ -163,7 +163,7 @@ public class CameraActivity extends Activity {
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
         // finally, execute the request
         Call<ServIngrResponse> call = Consts.service.uploadImage(body);
