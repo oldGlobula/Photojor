@@ -157,13 +157,13 @@ public class CameraActivity extends Activity {
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(
-                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        MediaType.parse("image/jpg"),
                         file
                 );
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
         // finally, execute the request
         Call<ServIngrResponse> call = Consts.service.uploadImage(body);
@@ -171,7 +171,7 @@ public class CameraActivity extends Activity {
             @Override
             public void onResponse(Call<ServIngrResponse> call,
                                    Response<ServIngrResponse> response) {
-                Log.v("Upload", "success");
+                Log.v("Upload", "success:"+response.body().getName() );
             }
 
             @Override

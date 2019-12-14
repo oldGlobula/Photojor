@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,14 +18,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.photojor.model.Ingredient;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
     Context context = this;
-    ArrayAdapter<String> adapter;
-
+    IngAdapter adapter;
+    ListView ingList;
     ArrayList<String> ingrArr;
 
     @Override
@@ -31,8 +36,9 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         ingrArr = new ArrayList<>();
-        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, ingrArr);
-
+        adapter = new IngAdapter(context,ingrArr);
+        ingList=findViewById(R.id.ingrList);
+        ingList.setAdapter(adapter);
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,8 +51,7 @@ public class ListActivity extends AppCompatActivity {
                 mDialogBuilder.setView(registerView);
 
                 final EditText nameText =  registerView.findViewById(R.id.et_add_ingredient);
-                ListView listView = findViewById(R.id.ingrList);
-                listView.setAdapter(adapter);
+
                 mDialogBuilder
                         .setCancelable(false)
                         .setPositiveButton("OK",
@@ -54,7 +59,9 @@ public class ListActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int id) {
                                         if (!nameText.getText().toString().isEmpty()){
-                                            adapter.add(nameText.getText().toString());
+                                            Ingredient tempIng=new Ingredient(nameText.getText().toString());
+                                            tempIng.setImage(BitmapFactory.decodeResource(getResources(),R.drawable.cs));
+                                            adapter.add(tempIng);
                                             adapter.notifyDataSetChanged();
                                         }
                                         else {
